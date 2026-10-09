@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Abdapk AI — اسأل • ابنِ • انشر</title>
+<style>
+:root{box-sizing:border-box;--bg:#f6f7fb;--sf:#fff;--tx:#14171f;--mt:#667085;--pr:#5b5bf0;--pt:#fff;--bd:#e3e6ee;--ub:#5b5bf0;--ab:#fff;--ok:#12a150;--er:#d92d20;--wr:#b54708;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1118;--sf:#171b25;--tx:#eef0f6;--mt:#9aa3b5;--bd:#272d3b;--ab:#1d2230;--pr:#7c7cff}}
+:root[data-theme="dark"]{--bg:#0e1118;--sf:#171b25;--tx:#eef0f6;--mt:#9aa3b5;--bd:#272d3b;--ab:#1d2230;--pr:#7c7cff}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--tx);font:15px/1.6 system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;display:flex;flex-direction:column;overflow:hidden}
+button,select,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:1px solid var(--bd);background:var(--sf);border-radius:10px;padding:7px 12px}
+button.p{background:var(--pr);color:var(--pt);border-color:var(--pr)}button:disabled{opacity:.45;cursor:not-allowed}
+header{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--sf);border-bottom:1px solid var(--bd)}
+.logo{font-weight:800;font-size:17px}.logo small{display:block;font-weight:400;font-size:11px;color:var(--mt)}
+header .sp{flex:1}select{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:7px;max-width:130px}
+#msgs{flex:1;overflow-y:auto;padding:14px 12px;display:flex;flex-direction:column;gap:10px}
+.m{max-width:92%;padding:10px 13px;border-radius:16px;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere}
+.m.u{align-self:flex-start;background:var(--ub);color:#fff;border-end-start-radius:4px}
+.m.a{align-self:flex-end;background:var(--ab);border:1px solid var(--bd);border-end-end-radius:4px}
+.m pre{direction:ltr;text-align:left;background:#0b0e14;color:#d6deeb;padding:10px;border-radius:10px;overflow-x:auto;font:12px/1.5 ui-monospace,Menlo,monospace;white-space:pre}
+.m .chip{display:inline-block;background:var(--pr);color:var(--pt);border-radius:8px;padding:2px 9px;font-size:12px;margin:2px 0}
+.empty{margin:auto;text-align:center;color:var(--mt);max-width:320px}.empty h2{color:var(--tx);margin:6px 0}
+.sys{align-self:center;color:var(--mt);font-size:12px;text-align:center}.err{color:var(--er)}
+#cmp{display:flex;gap:8px;padding:10px 12px;background:var(--sf);border-top:1px solid var(--bd);align-items:flex-end}
+#cmp textarea{flex:1;resize:none;max-height:140px;background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:9px 12px;direction:auto}
+#att{font-size:12px;color:var(--mt);padding:0 14px}
+#panel{position:fixed;top:0;right:0;bottom:0;width:min(100%,540px);background:var(--sf);border-left:1px solid var(--bd);transform:translateX(105%);transition:transform .25s;display:flex;flex-direction:column;z-index:20;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-shadow:-8px 0 30px #0003}
+#panel.open{transform:none}
+.ph{display:flex;gap:6px;padding:10px;border-bottom:1px solid var(--bd);align-items:center;flex-wrap:wrap}
+.tabs{display:flex;border-bottom:1px solid var(--bd)}.tabs button{flex:1;border:0;border-radius:0;background:none;padding:9px}
+.tabs button.on{border-bottom:2px solid var(--pr);color:var(--pr);font-weight:700}
+.pb{flex:1;overflow:auto;position:relative}iframe{width:100%;height:100%;border:0;background:#fff}
+#gate{padding:10px 12px;font-size:13px;border-bottom:1px solid var(--bd)}#gate ul{margin:4px 0 0;padding-inline-start:18px}
+.ok{color:var(--ok)}.wr{color:var(--wr)}
+#code{padding:10px;direction:ltr;text-align:left}#code details{margin-bottom:6px}#code summary{cursor:pointer;font:600 13px ui-monospace,monospace}
+#code pre{margin:4px 0;background:#0b0e14;color:#d6deeb;padding:10px;border-radius:8px;overflow:auto;font:12px/1.5 ui-monospace,monospace}
+#log{padding:10px 12px;font:12px/1.7 ui-monospace,monospace;direction:ltr;text-align:left;white-space:pre-wrap}
+dialog{border:1px solid var(--bd);border-radius:16px;background:var(--sf);color:var(--tx);width:min(94vw,520px);max-height:90vh;padding:0}
+dialog::backdrop{background:#0008}.dh{display:flex;align-items:center;padding:12px 14px;border-bottom:1px solid var(--bd);font-weight:700}.dh span{flex:1}
+.db{padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.card{border:1px solid var(--bd);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px}
+.card input{background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:8px;direction:ltr;text-align:left;width:100%}
+.row{display:flex;gap:6px;align-items:center}.row b{flex:1}.st{font-size:12px;color:var(--mt)}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">Abdapk AI<small>Ask • Build • Publish — اسأل • ابنِ • انشر</small></div>
+ <div class="sp"></div>
+ <select id="sel" aria-label="المزوّد"></select>
+ <button id="bset" aria-label="الإعدادات">⚙️</button>
+ <button id="bprev" class="p" aria-label="المعاينة">معاينة</button>
+</header>
+<div id="msgs"></div>
+<div id="att"></div>
+<div id="cmp">
+ <button id="battach" aria-label="إرفاق ملف نصي">📎</button>
+ <input id="file" type="file" multiple hidden accept=".txt,.md,.json,.csv,.html,.css,.js,.ts,.py,.xml,.yml,.yaml">
+ <textarea id="in" rows="1" placeholder="اكتب طلبك… مثال: ابنِ موقع مطعم بصفحة واحدة"></textarea>
+ <button id="bsend" class="p">إرسال</button>
+</div>
+
+<aside id="panel" aria-label="لوحة المعاينة">
+ <div class="ph"><button id="bclose" aria-label="إغلاق">✕</button><b style="flex:1">معاينة المشروع</b>
+  <button id="brel">إعادة تحميل</button>
+  <button id="bpub" class="p" disabled>نشر على GitHub</button></div>
+ <div id="gate"></div>
+ <div class="tabs"><button class="on" data-t="view">المعاينة</button><button data-t="code">الكود</button><button data-t="log">السجل</button></div>
+ <div class="pb" id="tview"><iframe id="fr" sandbox="allow-scripts" title="معاينة"></iframe></div>
+ <div class="pb" id="tcode" hidden><div id="code"></div></div>
+ <div class="pb" id="tlog" hidden><div id="log"></div></div>
+</aside>
+
+<dialog id="dlg">
+ <div class="dh"><span>الإعدادات والمفاتيح</span><button id="dx" aria-label="إغلاق">✕</button></div>
+ <div class="db" id="dbody"></div>
+</dialog>
+
+<script>
+const $=s=>document.querySelector(s);
+let ST={};try{ST=JSON.parse(localStorage.getItem('abd')||'{}')}catch(e){}
+ST.p=ST.p||{};ST.c=ST.c||{};ST.gh=ST.gh||{};ST.a=ST.a||'groq';ST.consent=ST.consent||{};
+const save=()=>{try{localStorage.setItem('abd',JSON.stringify(ST))}catch(e){}};
+const BASE={groq:['Groq','https://api.groq.com/openai/v1'],gemini:['Google Gemini','https://generativelanguage.googleapis.com/v1beta/openai'],deepseek:['DeepSeek','https://api.deepseek.com'],meta:['Meta AI','https://api.llama.com/compat/v1']};
+const allP=()=>({...BASE,...Object.fromEntries(Object.entries(ST.c).map(([k,v])=>[k,[v.n,v.u]]))});
+const SS={};let msgs=[],files={},busy=false,ctrl=null,runErr=[],attached=[];
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+const SYS=`أنت مهندس ويب محترف داخل Abdapk AI. إذا طلب المستخدم إنشاء موقع أو تطبيق ويب، أخرج مشروعاً كاملاً قابلاً للتشغيل بلا أي placeholder أو TODO أو Lorem ipsum.
+قواعد صارمة:
+1) كل ملف في كتلة بهذه الصيغة بالضبط: \`\`\`html file:index.html ثم المحتوى ثم \`\`\` (غيّر اللغة والمسار حسب الملف).
+2) الملف الرئيسي index.html في الجذر. الروابط نسبية فقط (style.css وليس /style.css) ولا تستعمل موارد من الشبكة.
+3) واجهة عربية RTL جميلة ومتجاوبة وخفيفة، بدون مكتبات خارجية، وكل زر يعمل فعلاً.
+4) اكتب جملة قصيرة قبل الكتل. للأسئلة العادية أجب نصاً بلا ملفات. أجب بلغة المستخدم.`;
+
+/* ---------- المزوّدون ---------- */
+function drawSel(){const s=$('#sel');s.innerHTML='';for(const[k,v]of Object.entries(allP())){const o=document.createElement('option');o.value=k;o.textContent=v[0]+(SS[k]?.ok?' ✓':'');s.appendChild(o)}s.value=ST.a}
+$('#sel').onchange=e=>{ST.a=e.target.value;save()};
+const hd=k=>({'Authorization':'Bearer '+(ST.p[k]?.key||''),'Content-Type':'application/json'});
+function pickModel(ids){
+ const bad=/whisper|embed|tts|guard|moderation|vision-only|image|audio|rerank|safeguard|prompt/i,rs=/(^|[-_])(r1|o1|o3|reason|think)/i;
+ const sc=id=>{let s=0;const m=id.match(/(\d+(?:\.\d+)?)\s*b/i);if(m)s+=+m[1];if(/flash|chat|versatile|instruct|llama|gemini/i.test(id))s+=30;if(/lite|mini|small|preview|exp/i.test(id))s-=10;if(rs.test(id))s-=500;return s};
+ const f=ids.filter(i=>!bad.test(i));return (f.length?f:ids).sort((a,b)=>sc(b)-sc(a))[0]}
+async function connect(k){
+ const p=allP()[k],key=ST.p[k]?.key;SS[k]={t:'جارٍ الفحص…'};dlgDraw();
+ if(!key){SS[k]={t:'أدخل المفتاح أولاً',bad:1};return dlgDraw()}
+ try{
+  let r=await fetch(p[1]+'/models',{headers:hd(k)});
+  if(r.status==401||r.status==403){SS[k]={t:'مفتاح غير صالح (InvalidKey)',bad:1};return dlgDraw()}
+  if(r.status==429){SS[k]={t:'تجاوزت الحد (RateLimited) — حاول لاحقاً',bad:1};return dlgDraw()}
+  let model=ST.p[k].model;
+  if(r.ok){const j=await r.json();const ids=(j.data||j.models||[]).map(x=>String(x.id||x.name).replace(/^models\//,''));if(ids.length)model=pickModel(ids)}
+  else if(r.status!=404){SS[k]={t:'ردّ غير متوقع: HTTP '+r.status,bad:1};return dlgDraw()}
+  if(!model){SS[k]={t:'تعذّر جلب الموديلات (404) — أدخل اسم الموديل يدوياً',bad:1,manual:1};return dlgDraw()}
+  const g=await fetch(p[1]+'/chat/completions',{method:'POST',headers:hd(k),body:JSON.stringify({model,max_tokens:1,messages:[{role:'user',content:'hi'}]})});
+  if(g.status==401||g.status==403)SS[k]={t:'المفتاح مرفوض عند التوليد (InvalidKey)',bad:1};
+  else if(g.status==402)SS[k]={t:'المفتاح محفوظ لكن الرصيد غير كافٍ (NeedsCredit)',bad:1};
+  else if(g.status==429)SS[k]={t:'تجاوزت الحد (RateLimited)',bad:1};
+  else if(g.ok){ST.p[k].model=model;save();SS[k]={t:'متصل ✓ — الموديل: '+model,ok:1}}
+  else SS[k]={t:'فشل التوليد: HTTP '+g.status,bad:1};
+ }catch(e){SS[k]={t:'تعذّر الوصول للمزوّد (Unreachable): '+e.message+' — افتح الموقع من GitHub Pages أو من ملف محلي إن كانت الصفحة محجوبة الشبكة.',bad:1}}
+ drawSel();dlgDraw()}
+
+/* ---------- الإعدادات ---------- */
+function dlgDraw(){
+ const b=$('#dbody');b.innerHTML='';
+ for(const[k,v]of Object.entries(allP())){
+  const c=document.createElement('div');c.className='card';const s=SS[k];
+  c.innerHTML=`<div class="row"><b>${esc(v[0])}</b><button data-c="${k}" class="p">حفظ وربط</button></div>
+  <input type="password" autocomplete="off" placeholder="API Key" data-k="${k}" value="${esc(ST.p[k]?.key||'')}" aria-label="مفتاح ${esc(v[0])}">
+  ${s?.manual?`<input placeholder="اسم الموديل" data-m="${k}" value="${esc(ST.p[k]?.model||'')}">`:''}
+  <div class="st ${s?.ok?'ok':s?.bad?'err':''}">${esc(s?.t||(ST.p[k]?.model?'محفوظ — اضغط ربط للتحقق':'غير متصل'))}</div>`;
+  b.appendChild(c)}
+ const a=document.createElement('div');a.className='card';
+ a.innerHTML=`<b>إضافة مزوّد +</b><input id="cn" placeholder="الاسم" style="direction:rtl;text-align:right"><input id="cu" placeholder="https://api.example.com/v1"><button id="cadd">إضافة</button>`;b.appendChild(a);
+ const g=document.createElement('div');g.className='card';
+ g.innerHTML=`<b>GitHub (اختياري)</b><input type="password" id="gt" placeholder="Personal Access Token (صلاحية repo)" value="${esc(ST.gh.token||'')}"><input id="gr" placeholder="اسم المستودع (مثال: my-site)" value="${esc(ST.gh.repo||'')}"><button id="gsave" class="p">حفظ والتحقق</button><div class="st" id="gst">${ST.gh.user?'متصل كـ '+esc(ST.gh.user):'غير متصل'}</div>`;b.appendChild(g);
+ const t=document.createElement('div');t.className='card';t.innerHTML=`<div class="row"><b>الثيم</b><button data-th="auto">نظام</button><button data-th="light">فاتح</button><button data-th="dark">داكن</button></div><div class="st">المفاتيح والمحادثات تُحفظ محلياً في متصفحك فقط. لا تحليلات ولا تتبع. الشبكة فقط للمزوّد المختار ولـ GitHub.</div><button id="wipe">حذف كل البيانات</button>`;b.appendChild(t);
+ b.querySelectorAll('[data-c]').forEach(x=>x.onclick=()=>{const k=x.dataset.c;ST.p[k]=ST.p[k]||{};ST.p[k].key=b.querySelector(`[data-k="${k}"]`).value.trim();const m=b.querySelector(`[data-m="${k}"]`);if(m)ST.p[k].model=m.value.trim();save();connect(k)});
+ b.querySelectorAll('[data-th]').forEach(x=>x.onclick=()=>{const v=x.dataset.th;if(v=='auto')document.documentElement.removeAttribute('data-theme');else document.documentElement.dataset.theme=v;ST.th=v;save()});
+ $('#cadd').onclick=()=>{const n=$('#cn').value.trim(),u=$('#cu').value.trim().replace(/\/$/,'');if(!n||!/^https:\/\//.test(u))return alert('أدخل اسماً ورابط https صحيحاً');ST.c['c'+Date.now()]={n,u};save();drawSel();dlgDraw()};
+ $('#gsave').onclick=ghVerify;
+ $('#wipe').onclick=()=>{if(confirm('حذف كل المفاتيح والإعدادات؟')){try{localStorage.removeItem('abd')}catch(e){}location.reload()}}}
+$('#bset').onclick=()=>{dlgDraw();$('#dlg').showModal()};$('#dx').onclick=()=>$('#dlg').close();
+
+/* ---------- الدردشة ---------- */
+function addMsg(role,text){const d=document.createElement('div');d.className='m '+(role=='user'?'u':'a');d.setAttribute('data-testid','msg_text');if(role=='user')d.textContent=text;else render(d,text);$('#msgs').appendChild(d);$('#msgs').scrollTop=1e9;return d}
+function render(d,t){
+ let h='',last=0;const re=/```([\w-]*)[ \t]*(?:file:([^\n]+))?\n([\s\S]*?)(?:```|$)/g;let m;
+ while((m=re.exec(t))){h+=esc(t.slice(last,m.index));h+=(m[2]?`<span class="chip">📄 ${esc(m[2].trim())}</span>`:'')+'<pre>'+esc(m[3])+'</pre>';last=re.lastIndex}
+ d.innerHTML=h+esc(t.slice(last))||'…'}
+function sys(t,bad){const d=document.createElement('div');d.className='sys'+(bad?' err':'');d.textContent=t;$('#msgs').appendChild(d);$('#msgs').scrollTop=1e9}
+function empty(){if(!msgs.length&&!$('.empty')){const e=document.createElement('div');e.className='empty';e.innerHTML='<h2>ابدأ بطلب واحد</h2>اطلب موقعاً مثل «موقع لمقهى بصفحة حجز» وسترى معاينة حيّة، وبعد اجتياز فحص الجودة تنشره على GitHub.';$('#msgs').appendChild(e)}}
+async function send(text){
+ text=(text||$('#in').value).trim();if(busy||!text&&!attached.length)return;
+ const k=ST.a,pv=allP()[k];if(!ST.p[k]?.key||!ST.p[k]?.model){sys('اربط المزوّد '+pv[0]+' أولاً من ⚙️',1);return $('#bset').click()}
+ if(!ST.consent[k]){if(!confirm('سيُرسل نص رسائلك وملفاتك المرفقة إلى '+pv[0]+' ليولّد الرد. هل توافق؟'))return;ST.consent[k]=1;save()}
+ let full=text;for(const f of attached)full+=`\n\n[ملف مرفق: ${f.name}]\n${f.text}`;attached=[];$('#att').textContent='';
+ $('.empty')?.remove();$('#in').value='';msgs.push({role:'user',content:full});addMsg('user',text);
+ const out=addMsg('a','');busy=true;$('#bsend').textContent='إيقاف';ctrl=new AbortController();let acc='';
+ try{
+  const r=await fetch(pv[1]+'/chat/completions',{method:'POST',headers:hd(k),signal:ctrl.signal,body:JSON.stringify({model:ST.p[k].model,stream:true,messages:[{role:'system',content:SYS},...msgs]})});
+  if(!r.ok){const e=await r.text().catch(()=>'');throw new Error('HTTP '+r.status+(r.status==401?' (مفتاح غير صالح)':r.status==429?' (تجاوز الحد)':r.status==402?' (رصيد غير كافٍ)':'')+' '+e.slice(0,160))}
+  const rd=r.body.getReader(),dc=new TextDecoder();let buf='',fin='';
+  for(;;){const{done,value}=await rd.read();if(done)break;buf+=dc.decode(value,{stream:true});const ls=buf.split('\n');buf=ls.pop();
+   for(const l of ls){if(!l.startsWith('data:'))continue;const j=l.slice(5).trim();if(!j||j=='[DONE]')continue;try{const o=JSON.parse(j),c=o.choices?.[0];acc+=c?.delta?.content||'';fin=c?.finish_reason||fin}catch(e){}}
+   render(out,acc);$('#msgs').scrollTop=1e9}
+  if(!acc.trim()){out.remove();sys('أعاد المزوّد ردّاً فارغاً. جرّب إعادة الإرسال أو مزوّداً آخر.',1)}
+  else{msgs.push({role:'assistant',content:acc});if(fin=='length')sys('تم قطع الرد لبلوغ الحد الأقصى — اكتب «أكمل».');extractFiles(acc)}
+ }catch(e){if(e.name=='AbortError'){if(acc){msgs.push({role:'assistant',content:acc})}else out.remove();sys('تم الإيقاف')}else{if(!acc)out.remove();else msgs.push({role:'assistant',content:acc});sys('خطأ: '+e.message,1)}}
+ busy=false;ctrl=null;$('#bsend').textContent='إرسال'}
+$('#bsend').onclick=()=>busy?ctrl.abort():send();
+$('#in').onkeydown=e=>{if(e.key=='Enter'&&!e.shiftKey&&innerWidth>700){e.preventDefault();send()}};
+$('#in').oninput=e=>{e.target.style.height='auto';e.target.style.height=Math.min(e.target.scrollHeight,140)+'px'};
+$('#battach').onclick=()=>$('#file').click();
+$('#file').onchange=async e=>{for(const f of e.target.files){if(f.size>200000){sys('الملف '+f.name+' أكبر من 200KB',1);continue}attached.push({name:f.name,text:await f.text()})}$('#att').textContent=attached.length?'📎 '+attached.map(a=>a.name).join('، '):'';e.target.value=''};
+
+/* ---------- المشروع وبوابة الجودة ---------- */
+function extractFiles(t){
+ const re=/```[\w-]*[ \t]+file:([^\n]+)\n([\s\S]*?)\n```/g;let m,got=0;const nf={...files};
+ while((m=re.exec(t))){let p=m[1].trim().replace(/^\.?\//,'');nf[p]=m[2];got++}
+ if(!got)return;files=nf;openPanel();checkAndPreview()}
+function gate(){
+ const e=[];if(!files['index.html'])e.push('لا يوجد ملف index.html في الجذر');
+ for(const p of Object.keys(files)){if(/\.\.|^\/|\\/.test(p))e.push('مسار غير آمن: '+p);if(!files[p].trim())e.push('ملف فارغ: '+p);if(/TODO|FIXME|Lorem ipsum/i.test(files[p]))e.push('نص مؤقت (TODO/Lorem) في '+p)}
+ const h=files['index.html'];
+ if(h){const d=new DOMParser().parseFromString(h,'text/html');
+  if(d.querySelector('parsererror'))e.push('index.html غير صالح');
+  if((d.body?.textContent||'').trim().length<20&&!d.querySelector('canvas,img,svg'))e.push('الصفحة شبه فارغة');
+  if(/Welcome to nginx|It works!|Index of \//i.test(h))e.push('صفحة ترحيب افتراضية مرفوضة');
+  d.querySelectorAll('link[href],script[src],img[src]').forEach(n=>{const u=n.getAttribute('href')||n.getAttribute('src');
+   if(/^(data:|#|mailto:|tel:)/.test(u))return;
+   if(/^https?:|^\/\//.test(u)){e.push('مورد خارجي غير مسموح: '+u);return}
+   if(/^file:|^\//.test(u)){e.push('رابط مطلق يجب أن يكون نسبياً: '+u);return}
+   const q=u.replace(/^\.\//,'').split(/[?#]/)[0];if(!files[q])e.push('ملف مفقود: '+q)})}
+ return e}
+function build(){
+ let h=files['index.html']||'';
+ h=h.replace(/<link[^>]+href=["']([^"']+)["'][^>]*>/gi,(m,u)=>/stylesheet/i.test(m)&&files[u.replace(/^\.\//,'')]!=null?`<style>${files[u.replace(/^\.\//,'')]}</style>`:m);
+ h=h.replace(/<script([^>]*)src=["']([^"']+)["']([^>]*)><\/script>/gi,(m,a,u,b)=>files[u.replace(/^\.\//,'')]!=null?`<script${a}${b}>${files[u.replace(/^\.\//,'')].replace(/<\/script/gi,'<\\/script')}<\/script>`:m);
+ const hook=`<script>addEventListener('error',e=>parent.postMessage({abd:1,m:(e.message||'error')+' @'+(e.lineno||0)},'*'));addEventListener('unhandledrejection',e=>parent.postMessage({abd:1,m:'Promise: '+(e.reason&&e.reason.message||e.reason)},'*'))<\/script>`;
+ return /<head[^>]*>/i.test(h)?h.replace(/<head[^>]*>/i,x=>x+hook):hook+h}
+let gErr=[],loaded=false;
+function checkAndPreview(){
+ runErr=[];loaded=false;gErr=gate();
+ $('#code').innerHTML=Object.entries(files).map(([p,c])=>`<details><summary>${esc(p)} (${c.length})</summary><pre>${esc(c)}</pre></details>`).join('');
+ if(!gErr.length)$('#fr').srcdoc=build();else $('#fr').srcdoc='<body style="font:14px system-ui;padding:20px;direction:rtl">المعاينة معلّقة: المشروع لم يجتز فحص الجودة.</body>';
+ paintGate()}
+function paintGate(){
+ const all=[...gErr,...runErr.map(x=>'خطأ تشغيل: '+x)];const g=$('#gate');
+ if(all.length){g.innerHTML=`<b class="err">✗ لم يجتز فحص الجودة (${all.length})</b><ul>${all.slice(0,8).map(x=>'<li>'+esc(x)+'</li>').join('')}</ul><button id="fix" class="p" style="margin-top:6px">إصلاح تلقائي بالذكاء الاصطناعي</button>`;
+  $('#fix').onclick=()=>{closePanel();send('المشروع لم يجتز فحص الجودة. أصلح الأخطاء التالية وأعد إخراج الملفات المعدّلة كاملة:\n- '+all.join('\n- '))};$('#bpub').disabled=true}
+ else if(!loaded){g.innerHTML='<span class="wr">… جارٍ تشغيل المعاينة والتحقق</span>';$('#bpub').disabled=true}
+ else{g.innerHTML='<b class="ok">✓ اجتاز فحص الجودة — جاهز للنشر</b> ('+Object.keys(files).length+' ملفات)';$('#bpub').disabled=false}}
+$('#fr').onload=()=>{if(gErr.length)return;setTimeout(()=>{loaded=true;paintGate()},700)};
+addEventListener('message',e=>{if(e.source===$('#fr').contentWindow&&e.data?.abd&&runErr.length<20){runErr.push(String(e.data.m).slice(0,160));paintGate()}});
+$('#brel').onclick=checkAndPreview;
+function openPanel(){$('#panel').classList.add('open')}function closePanel(){$('#panel').classList.remove('open')}
+$('#bprev').onclick=()=>Object.keys(files).length?(openPanel(),checkAndPreview()):sys('لا يوجد مشروع بعد — اطلب من الذكاء الاصطناعي بناء موقع');
+$('#bclose').onclick=closePanel;
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x===b));for(const t of['view','code','log'])$('#t'+t).hidden=t!==b.dataset.t});
+
+/* ---------- GitHub ---------- */
+const gh=(p,o={})=>fetch('https://api.github.com'+p,{...o,headers:{'Authorization':'Bearer '+ST.gh.token,'Accept':'application/vnd.github+json','Content-Type':'application/json'}});
+const L=t=>{$('#log').textContent+=t+'\n'};
+async function ghVerify(){
+ ST.gh.token=$('#gt').value.trim();ST.gh.repo=$('#gr').value.trim().replace(/[^\w.-]/g,'-');$('#gst').textContent='جارٍ التحقق…';
+ try{const r=await gh('/user');if(r.status==401){$('#gst').textContent='توكن غير صالح (401)';$('#gst').className='st err';return}
+  if(!r.ok){$('#gst').textContent='فشل: HTTP '+r.status;$('#gst').className='st err';return}
+  ST.gh.user=(await r.json()).login;save();$('#gst').textContent='متصل كـ '+ST.gh.user;$('#gst').className='st ok'}
+ catch(e){$('#gst').textContent='تعذّر الوصول لـ GitHub: '+e.message;$('#gst').className='st err'}}
+const b64=s=>{const b=new TextEncoder().encode(s);let x='';b.forEach(c=>x+=String.fromCharCode(c));return btoa(x)};
+$('#bpub').onclick=async()=>{
+ if(!ST.gh.token||!ST.gh.user){closeAll();return $('#bset').click()}
+ if(gate().length||runErr.length)return paintGate();
+ const repo=ST.gh.repo||('abdapk-'+Date.now().toString(36)),u=ST.gh.user;
+ document.querySelector('[data-t="log"]').click();$('#log').textContent='';$('#bpub').disabled=true;
+ try{
+  L('إنشاء المستودع '+repo+'…');
+  let r=await gh('/user/repos',{method:'POST',body:JSON.stringify({name:repo,auto_init:true,description:'Built with Abdapk AI'})});
+  if(r.status==422)L('المستودع موجود — سيتم التحديث');else if(!r.ok)throw new Error('إنشاء المستودع: HTTP '+r.status);else L('✓ تم الإنشاء');
+  for(const[p,c]of Object.entries(files)){
+   const url=`/repos/${u}/${repo}/contents/${p.split('/').map(encodeURIComponent).join('/')}`;let sha;
+   const g=await gh(url);if(g.ok)sha=(await g.json()).sha;
+   r=await gh(url,{method:'PUT',body:JSON.stringify({message:'Abdapk AI: '+p,content:b64(c),sha})});
+   if(!r.ok)throw new Error('رفع '+p+': HTTP '+r.status);L('✓ رُفع '+p)}
+  r=await gh(`/repos/${u}/${repo}/pages`,{method:'POST',body:JSON.stringify({source:{branch:'main',path:'/'}})});
+  if(r.status==201||r.status==409||r.status==422)L('✓ GitHub Pages مفعّل');else throw new Error('تفعيل Pages: HTTP '+r.status);
+  const live=`https://${u}.github.io/${repo}/`;L('بانتظار النشر… '+live);
+  for(let i=0;i<24;i++){await new Promise(z=>setTimeout(z,5000));try{const c=await fetch(live,{cache:'no-store'});if(c.ok){L('✓ الرابط الحي يعمل (200)');$('#log').innerHTML+=`\n<a href="${live}" target="_blank" rel="noopener" style="color:var(--pr);font-size:14px">${live}</a>`;$('#bpub').disabled=false;return}}catch(e){}L('… '+(i+1)+'/24')}
+  L('لم يتأكد النشر بعد، قد يحتاج دقيقة إضافية: '+live)
+ }catch(e){L('✗ '+e.message)}$('#bpub').disabled=false};
+const closeAll=()=>closePanel();
+
+/* ---------- تشغيل ---------- */
+if(ST.th&&ST.th!='auto')document.documentElement.dataset.th=ST.th,document.documentElement.dataset.theme=ST.th;
+drawSel();empty();
+</script>
+</body>
+</html>
